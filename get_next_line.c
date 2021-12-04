@@ -6,10 +6,14 @@
 /*   By: jonghapa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 18:26:30 by jonghapa          #+#    #+#             */
-/*   Updated: 2021/12/03 18:26:43 by jonghapa         ###   ########.fr       */
+/*   Updated: 2021/12/04 15:36:14 by jonghapa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+char *get_next_line(int fd)
+{
+	char buf[BUFFER_SIZE];
 
+}

@@ -1,7 +1,16 @@
-#include "get_next_line.h"
-int main(int ac, char **av)
+int main(void)
 {
- fd1 = open(av[1], O_RDONLY);
- get_next_line(fd1, &line);
- printf("%s", line);
+	char *line = 0;
+	int ret;
+	int fd;
+
+	fd = open("testfile2", O_RDONLY);
+	while ((ret = get_next_line(fd, &line)) > 0)
+	{
+		printf("%s\n", line);
+		free(line);
+	}
+	printf("%s\n", line);
+	free(line);
+	return (0);
 }
