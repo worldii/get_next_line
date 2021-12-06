@@ -6,7 +6,7 @@
 /*   By: jongha2788 <jongha2788@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 18:26:30 by jonghapa          #+#    #+#             */
-/*   Updated: 2021/12/05 17:12:42 by jongha2788       ###   ########.fr       */
+/*   Updated: 2021/12/06 17:31:35 by jonghapa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,29 +25,48 @@ int is_newline(char *buf)
 	return (-1);
 }
 
-char * split_line(int nextidx, char *buf)
+char * split_line(int oldidx, int nextidx, char * line)
 {
-
+	int idx = 0 ;
+	line[oldidx + nextidx] = 0;
+	return (line+ oldidx + nextidx +1 );
 }
+
 char *get_next_line(int fd)
 {
-	char buf[BUFFER_SIZE];
-	static char * temp =ft_strdup("");
-	int	read_size;
+	char		buf[BUFFER_SIZE + 1];
+	static char *backup ;
+	char 		*line;
+	int			read_size;
+
+	if ( backup == NULL)
+		line = ft_strdup ("");
+	else
+		line = backup;
+	if (backup != NULL && is_newline(backup)!= -1)
+	{
+		backup = split_line (0, is_newline(backup), line);
+		return (line);
+	}
 	read_size = read(fd, buf, BUFFER_SIZE);
-	while (read_size > 0 ) {
+	while (read_size > 0)
+	{
 		buf[read_size] = 0;
-		temp = ft_strjoin (temp, buf);
-		int nextidx= is_newline(temp);
-		// 동적 할당을 해줌. buf 같은 경우 local variable 이기 때문에 이 함수가 사라지면 잃어버림. 
+		int linelen = ft_strlen(line);
+		line = ft_strjoin(line, buf);
+		int nextidx= is_newline(line); 
 		if (nextidx != -1) 
 		{
-			// 바로 이전의 줄과 split 한 것 합친 다음에 리턴
-			// 다음에 next 줄을 읽기 위해서는 \n 이후의 글자를 가르키게 해야함.
-			
+			backup = split_line (linelen, nextidx, line);			
+			break;
 		}
 		read_size = read(fd, buf, BUFFER_SIZE);
 	}
-	
-	return (temp);
+	if  (line == NULL || ft_strlen(line) == 0) 
+	{
+		int nextidx = is_newline(line);
+		if (nextidx != -1)
+			backup = split_line (0, nextidx, line);
+	}
+	return (line);
 }

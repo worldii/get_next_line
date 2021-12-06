@@ -10,6 +10,11 @@ int main(void)
 	int fd;
 	fd = open("testfile2", O_RDONLY);
 	line = get_next_line(fd);
-	printf("%s", line);
+	if (line !=0) printf("printf %s\n", line);
+	line = get_next_line ( fd);
+	if (line != 0 ) printf("printf %s\n", line);
+	line = get_next_line ( fd);
+	if (line != 0)printf("printf %s\n", line );
 	return (0);
 }
+
