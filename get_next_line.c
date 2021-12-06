@@ -6,7 +6,7 @@
 /*   By: jongha2788 <jongha2788@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 18:26:30 by jonghapa          #+#    #+#             */
-/*   Updated: 2021/12/06 17:31:35 by jonghapa         ###   ########.fr       */
+/*   Updated: 2021/12/06 18:08:29 by jonghapa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,45 @@ int is_newline(char *buf)
 	while (buf[++i])
 	{
 		if (buf[i] =='\n')
-		return (i);
+			return (i);
 	}
 	return (-1);
 }
 
-char * split_line(int oldidx, int nextidx, char * line)
+char * split_line(char ** buf)
 {
-	int idx = 0 ;
-	line[oldidx + nextidx] = 0;
-	return (line+ oldidx + nextidx +1 );
+	char	*line;
+	int newlineidx;
+	newlineidx = is_newline(*buf);
+	if (newlineidx == -1)
+	{
+		// 끝이란 이야기임. 
+		// buf 의 값 옮겨 담은 다음,  line 의 값에 할당해주고 buf 는 NULL로 초기화
+		line = (char *) malloc(sizeof(char) * ft_strlen(*buf) + 1);
+		int idx = -1;
+		while  (++idx < ft_strlen(*buf))
+			line[idx] = (*buf)[idx];
+		line[idx] = 0;
+	}
+	else
+	{
+		line = (char *) malloc(sizeof(char) * (newlineidx + 1));
+		int idx = -1;
+		while (++idx < newlineidx)
+		{
+			line[idx] =(* buf)[idx];
+		}
+		line[idx] = 0;
+		char * temp = (char *) malloc(sizeof(char) * ( ft_strlen(*buf)  - newlineidx + 1));
+		idx = -1; 
+		while (++idx < ft_strlen(*buf) - newlineidx)
+			temp[idx] = (*buf)[newlineidx + idx+ 1] ;
+		free(*buf);
+		temp[idx] = 0;
+		*buf = temp ;
+	}
+	
+	return (line);
 }
 
 char *get_next_line(int fd)
@@ -38,35 +67,19 @@ char *get_next_line(int fd)
 	static char *backup ;
 	char 		*line;
 	int			read_size;
-
-	if ( backup == NULL)
-		line = ft_strdup ("");
-	else
-		line = backup;
+	
+	if ( backup == 0) backup = ft_strdup("");
 	if (backup != NULL && is_newline(backup)!= -1)
-	{
-		backup = split_line (0, is_newline(backup), line);
-		return (line);
-	}
-	read_size = read(fd, buf, BUFFER_SIZE);
-	while (read_size > 0)
+		return (split_line (&backup));
+	if (BUFFER_SIZE <= 0 || read(fd, buf, 0) == -1)
+		return (0);
+	while (( read_size = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
 		buf[read_size] = 0;
-		int linelen = ft_strlen(line);
-		line = ft_strjoin(line, buf);
-		int nextidx= is_newline(line); 
-		if (nextidx != -1) 
-		{
-			backup = split_line (linelen, nextidx, line);			
-			break;
-		}
-		read_size = read(fd, buf, BUFFER_SIZE);
-	}
-	if  (line == NULL || ft_strlen(line) == 0) 
-	{
-		int nextidx = is_newline(line);
+		backup = ft_strjoin(backup, buf);
+		int nextidx= is_newline(backup); 
 		if (nextidx != -1)
-			backup = split_line (0, nextidx, line);
+			return (split_line(&backup));
 	}
-	return (line);
+	return (split_line(&backup));
 }
