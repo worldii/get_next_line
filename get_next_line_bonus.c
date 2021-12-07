@@ -6,7 +6,7 @@
 /*   By: jongha2788 <jongha2788@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 15:23:08 by jongha2788        #+#    #+#             */
-/*   Updated: 2021/12/07 15:22:24 by jonghapa         ###   ########.fr       */
+/*   Updated: 2021/12/07 16:06:27 by jonghapa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*get_next_line(int fd)
 
 	if (backup[fd] != NULL && is_newline(backup[fd]) != -1)
 		return (split_line (&backup[fd]));
-	if (BUFFER_SIZE <= 0 || read(fd, buf, 0) == -1)
+	if (fd <= -1 || fd >= 1024 || BUFFER_SIZE <= 0 || read(fd, buf, 0) == -1)
 		return (0);
 	if (backup[fd] == 0)
 		backup[fd] = ft_strndup("", 0, 0);
