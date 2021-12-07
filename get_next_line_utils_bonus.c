@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jongha2788 <jongha2788@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/05 15:23:00 by jongha2788        #+#    #+#             */
-/*   Updated: 2021/12/07 14:52:53 by jonghapa         ###   ########.fr       */
+/*   Created: 2021/12/07 15:00:22 by jonghapa          #+#    #+#             */
+/*   Updated: 2021/12/07 15:00:45 by jongha2788       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"get_next_line.h"
+#include"get_next_line_bonus.h"
 
 int	ft_strlen(const char *str)
 {
