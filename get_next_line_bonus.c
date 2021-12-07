@@ -6,7 +6,7 @@
 /*   By: jongha2788 <jongha2788@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 15:23:08 by jongha2788        #+#    #+#             */
-/*   Updated: 2021/12/07 16:06:27 by jonghapa         ###   ########.fr       */
+/*   Updated: 2021/12/07 16:30:17 by jonghapa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*split_line(char **buf)
 char	*get_next_line(int fd)
 {
 	char		buf[BUFFER_SIZE + 1];
-	static char	*backup[1024];
+	static char	*backup[OPEN_MAX];
 	char		*newbackup;
 	int			read_size;
 	int			nextidx;

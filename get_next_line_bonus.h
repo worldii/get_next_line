@@ -6,7 +6,7 @@
 /*   By: jonghapa <bbc2788@naver.com>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 15:01:38 by jonghapa          #+#    #+#             */
-/*   Updated: 2021/12/07 15:01:53 by jonghapa         ###   ########.fr       */
+/*   Updated: 2021/12/07 16:29:54 by jonghapa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+# include <limits.h>
 
 int		is_newline(char *buf);
 char	*get_next_line(int fd);
