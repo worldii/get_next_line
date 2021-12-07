@@ -6,7 +6,7 @@
 /*   By: jongha2788 <jongha2788@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 18:26:30 by jonghapa          #+#    #+#             */
-/*   Updated: 2021/12/07 11:17:30 by jongha2788       ###   ########.fr       */
+/*   Updated: 2021/12/07 13:06:49 by jongha2788       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ char	*split_line(char **buf)
 		while (++idx < newlineidx)
 			line[idx] = (*buf)[idx];
 		line[idx] = 0;
-		temp = (char *)malloc(ft_strlen(*buf) - newlineidx + 1);
+		temp = (char *)malloc(ft_strlen(*buf) - newlineidx);
 		idx = -1;
-		while (++idx < ft_strlen(*buf) - newlineidx)
+		while (++idx < ft_strlen(*buf) - newlineidx && newlineidx + idx +1 <ft_strlen(*buf))
 			temp[idx] = (*buf)[newlineidx + idx + 1];
 		temp[idx] = 0;
 		free(*buf);
@@ -68,10 +68,11 @@ char	*get_next_line(int fd)
 
 	if (backup != NULL && is_newline(backup) != -1)
 		return (split_line (&backup));
-	if (backup == 0)
-		backup = ft_strdup("");
 	if (BUFFER_SIZE <= 0 || read(fd, buf, 0) == -1)
 		return (0);
+	if (backup == 0)
+		backup = ft_strdup("");
+
 	while ((read_size = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
 		buf[read_size] = 0;
