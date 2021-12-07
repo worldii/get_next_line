@@ -6,7 +6,7 @@
 /*   By: jongha2788 <jongha2788@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 15:23:00 by jongha2788        #+#    #+#             */
-/*   Updated: 2021/12/07 13:55:05 by jonghapa         ###   ########.fr       */
+/*   Updated: 2021/12/07 14:25:11 by jonghapa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (new);
 }
 
-char	*ft_strdup(const char *src)
+char	*ft_strndup(const char *src, int start, int num)
 {
 	char	*temp;
 	int		len;
@@ -61,33 +61,12 @@ char	*ft_strdup(const char *src)
 	sidx = 0;
 	tidx = 0;
 	len = ft_strlen(src);
-	temp = (char *) malloc (sizeof(char) * len + 1);
+	temp = (char *) malloc (num + 1);
 	if (temp == NULL)
 		return (NULL);
-	while (src[sidx])
+	while (src[sidx] && tidx < num)
 	{
-		temp[tidx++] = src[sidx++];
-	}
-	temp[tidx] = 0;
-	return (temp);
-}
-
-char	*ft_strndup(const char *src, size_t num)
-{
-	char	*temp;
-	int		len;
-	int		sidx;
-	int		tidx;
-
-	sidx = 0;
-	tidx = 0;
-	len = ft_strlen(src);
-	temp = (char *) malloc (sizeof(char) * num + 1);
-	if (temp == NULL)
-		return (NULL);
-	while (src[sidx] && tidx < (int) num)
-	{
-		temp[tidx++] = src[sidx++];
+		temp[tidx++] = src[start + sidx++];
 	}
 	temp[tidx] = 0;
 	return (temp);

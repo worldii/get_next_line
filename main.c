@@ -6,10 +6,10 @@
 /*   By: jonghapa <bbc2788@naver.com>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 13:41:38 by jonghapa          #+#    #+#             */
-/*   Updated: 2021/12/07 13:45:26 by jonghapa         ###   ########.fr       */
+/*   Updated: 2021/12/07 14:25:28 by jonghapa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
+/*
 #include "get_next_line.h"
 #include<stdio.h>
 #include<sys/types.h>
@@ -30,4 +30,4 @@ int main(void)
 	printf("printf %s", line );
 	free(line);
 	return (0);
-}
+}*/
