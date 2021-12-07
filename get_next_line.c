@@ -6,7 +6,7 @@
 /*   By: jongha2788 <jongha2788@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 18:26:30 by jonghapa          #+#    #+#             */
-/*   Updated: 2021/12/07 13:32:47 by jongha2788       ###   ########.fr       */
+/*   Updated: 2021/12/07 13:36:14 by jongha2788       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,12 @@ char	*split_line(char **buf)
 	}
 	else
 	{
-		line = (char *) malloc(newlineidx + 1);
+		line = (char *) malloc(newlineidx + 2);
 		idx = -1;
-		while (++idx < newlineidx)
+		while (++idx <= newlineidx)
 			line[idx] = (*buf)[idx];
 		line[idx] = 0;
-		temp = (char *)malloc(ft_strlen(*buf) - newlineidx);
+		temp = (char *)malloc(ft_strlen(*buf) - newlineidx );
 		idx = -1;
 		while (++idx < ft_strlen(*buf) - newlineidx && newlineidx + idx +1 <ft_strlen(*buf))
 			temp[idx] = (*buf)[newlineidx + idx + 1];
