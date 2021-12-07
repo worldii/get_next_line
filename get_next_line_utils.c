@@ -6,7 +6,7 @@
 /*   By: jongha2788 <jongha2788@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 15:23:00 by jongha2788        #+#    #+#             */
-/*   Updated: 2021/12/05 16:30:01 by jongha2788       ###   ########.fr       */
+/*   Updated: 2021/12/07 13:44:33 by jongha2788       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,27 @@ char	*ft_strdup(const char *src)
 	if (temp == NULL)
 		return (NULL);
 	while (src[sidx])
+	{
+		temp[tidx++] = src[sidx++];
+	}
+	temp[tidx] = 0;
+	return (temp);
+}
+
+char	*ft_strndup(const char *src, size_t num)
+{
+	char	*temp;
+	int		len;
+	int		sidx;
+	int		tidx;
+
+	sidx = 0;
+	tidx = 0;
+	len = ft_strlen(src);
+	temp = (char *) malloc (sizeof(char) * num + 1);
+	if (temp == NULL)
+		return (NULL);
+	while (src[sidx] && tidx < num)
 	{
 		temp[tidx++] = src[sidx++];
 	}

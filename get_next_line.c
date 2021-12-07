@@ -6,7 +6,7 @@
 /*   By: jongha2788 <jongha2788@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 18:26:30 by jonghapa          #+#    #+#             */
-/*   Updated: 2021/12/07 13:36:14 by jongha2788       ###   ########.fr       */
+/*   Updated: 2021/12/07 13:52:12 by jonghapa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,16 @@ char	*split_line(char **buf)
 	newlineidx = is_newline(*buf);
 	if (newlineidx == -1)
 	{
-		// EOF 라는 뜻임. 
 		line = ft_strdup(*buf);
 		free(*buf);
 		*buf =NULL;
 	}
 	else
 	{
-		line = (char *) malloc(newlineidx + 2);
-		idx = -1;
-		while (++idx <= newlineidx)
-			line[idx] = (*buf)[idx];
-		line[idx] = 0;
+		line = ft_strndup (*buf, newlineidx+1);
 		temp = (char *)malloc(ft_strlen(*buf) - newlineidx );
 		idx = -1;
-		while (++idx < ft_strlen(*buf) - newlineidx && newlineidx + idx +1 <ft_strlen(*buf))
+		while (++idx < ft_strlen(*buf) - newlineidx)
 			temp[idx] = (*buf)[newlineidx + idx + 1];
 		temp[idx] = 0;
 		free(*buf);
@@ -67,7 +62,7 @@ char	*get_next_line(int fd)
 {
 	char		buf[BUFFER_SIZE + 1];
 	static char	*backup ;
-	char *newbackup;
+	char		*newbackup;
 	int			read_size;
 	int			nextidx;
 
