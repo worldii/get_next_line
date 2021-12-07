@@ -6,7 +6,7 @@
 /*   By: jongha2788 <jongha2788@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 18:26:30 by jonghapa          #+#    #+#             */
-/*   Updated: 2021/12/07 13:06:49 by jongha2788       ###   ########.fr       */
+/*   Updated: 2021/12/07 13:32:47 by jongha2788       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,12 @@ char	*split_line(char **buf)
 	int		idx;
 	int		newlineidx;
 	char	*temp;
-
+	
+	if (*buf[0] == 0) {
+		free(*buf);
+		*buf= NULL;
+		return (NULL);
+	}
 	newlineidx = is_newline(*buf);
 	if (newlineidx == -1)
 	{
