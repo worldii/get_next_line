@@ -6,7 +6,7 @@
 /*   By: jongha2788 <jongha2788@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 17:55:23 by jonghapa          #+#    #+#             */
-/*   Updated: 2021/12/07 14:09:54 by jonghapa         ###   ########.fr       */
+/*   Updated: 2021/12/09 03:03:03 by jonghapa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-int		is_newline(char *buf);
 char	*get_next_line(int fd);
 int		ft_strlen(const char *str);
 char	*ft_strjoin(char const *s1, char const *s2);
