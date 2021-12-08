@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jongha2788 <jongha2788@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jonghapa <bbc2788@naver.com>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/05 15:23:08 by jongha2788        #+#    #+#             */
-/*   Updated: 2021/12/07 17:02:26 by jongha2788       ###   ########.fr       */
+/*   Created: 2021/12/09 03:34:01 by jonghapa          #+#    #+#             */
+/*   Updated: 2021/12/09 03:46:25 by jonghapa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-int	is_newline(char *buf)
+static int	is_newline(char *buf)
 {
 	int	i;
 
@@ -25,60 +25,69 @@ int	is_newline(char *buf)
 	return (-1);
 }
 
-char	*split_line(char **buf)
+static char	*split_line(char **backbuf, char *buf)
 {
 	char	*line;
 	int		idx;
 	char	*temp;
 
-	if (*buf[0] == 0)
-	{
-		free(*buf);
-		*buf = NULL;
-		return (NULL);
-	}
-	idx = is_newline(*buf);
+	line = NULL;
+	idx = is_newline(*backbuf);
 	if (idx == -1)
 	{
-		line = ft_strndup(*buf, 0, ft_strlen(*buf));
-		free(*buf);
-		*buf = NULL;
+		if (*backbuf[0] != 0)
+			line = ft_strndup(*backbuf, 0, ft_strlen(*backbuf));
+		free(*backbuf);
+		*backbuf = NULL;
 	}
 	else
 	{
-		line = ft_strndup(*buf, 0, idx + 1);
-		temp = ft_strndup(*buf, idx + 1, ft_strlen(*buf) - idx - 1);
-		free(*buf);
-		*buf = temp ;
+		line = ft_strndup(*backbuf, 0, idx + 1);
+		temp = ft_strndup(*backbuf, idx + 1, ft_strlen(*backbuf) - idx - 1);
+		free(*backbuf);
+		*backbuf = temp ;
 	}
+	free(buf);
 	return (line);
 }
 
-char	*get_next_line(int fd)
+static char	*get_read_line(int fd, char *buf, char **backup)
 {
-	char		buf[BUFFER_SIZE + 1];
-	static char	*backup[OPEN_MAX];
-	char		*newbackup;
-	int			read_size;
-	int			nextidx;
+	int		read_size;
+	char	*newbackup;
+	int		nextidx;
 
-	if (backup[fd] != NULL && is_newline(backup[fd]) != -1)
-		return (split_line (&backup[fd]));
-	if (fd >= OPEN_MAX || BUFFER_SIZE <= 0 || read(fd, buf, 0) == -1)
-		return (0);
-	if (backup[fd] == 0)
-		backup[fd] = ft_strndup("", 0, 0);
 	read_size = read(fd, buf, BUFFER_SIZE);
 	while (read_size > 0)
 	{
 		buf[read_size] = 0;
-		newbackup = ft_strjoin(backup[fd], buf);
-		free(backup[fd]);
-		backup[fd] = newbackup;
-		nextidx = is_newline(backup[fd]);
+		newbackup = ft_strjoin(*backup, buf);
+		free(*backup);
+		*backup = newbackup;
+		nextidx = is_newline(*backup);
 		if (nextidx != -1)
-			return (split_line(&backup[fd]));
+			return (split_line(backup, buf));
 		read_size = read(fd, buf, BUFFER_SIZE);
 	}
-	return (split_line(&backup[fd]));
+	return (split_line(backup, buf));
+}
+
+char	*get_next_line(int fd)
+{
+	char		*buf;
+	static char	*backup[OPEN_MAX];
+
+	buf = (char *) malloc (BUFFER_SIZE + 1);
+	if (buf == NULL)
+		return (0);
+	if (BUFFER_SIZE == 0 || read(fd, buf, 0) == -1)
+	{
+		free(buf);
+		return (0);
+	}
+	if (backup[fd] != NULL && is_newline(backup[fd]) != -1)
+		return (split_line (&backup[fd], buf));
+	if (backup[fd] == 0)
+		backup[fd] = ft_strndup("", 0, 0);
+	return (get_read_line(fd, buf, &backup[fd]));
 }
